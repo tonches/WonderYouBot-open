@@ -1,0 +1,42 @@
+version: "3"
+networks:
+ waiting_for_container:
+services:
+  app :
+    build: ./code/
+    container_name: bot_code
+    links:
+      - db
+    volumes:
+      - ./bin:/code/bin
+      - /mnt/ramdisk/wy/userdata:/code/userdata
+      - /mnt/ramdisk/wy/reports:/code/reports
+    networks:
+      - waiting_for_container
+    command: ["pipenv", "run", "python", "bin/bot3.py"]
+    restart: unless-stopped
+  db:
+    build: ./database/
+    container_name: bot_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - wonderyou_db:/var/lib/postgresql
+    networks:
+      - waiting_for_container
+    restart: unless-stopped
+  report:
+    build: ./reports/
+    container_name: bot_rep
+    volumes:
+      - ./bin-reports:/app/bin
+      - /mnt/ramdisk/wy/userdata:/app/userdata
+      - /mnt/ramdisk/wy/reports:/app/build
+    networks:
+      - waiting_for_container
+    command: ["npm", "start"]
+    restart: unless-stopped
+volumes:
+  wonderyou_db:
+    external: true
+    

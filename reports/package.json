@@ -1,0 +1,17 @@
+{
+  "name": "reports",
+  "version": "1.0.0",
+  "description": "",
+  "main": "apps.js",
+  "scripts": {
+    "start": "node bin/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "carbone": "^3.2.3",
+    "chokidar": "^3.5.3",
+    "express": "^4.18.1"
+  }
+}
